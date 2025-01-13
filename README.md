@@ -4,3 +4,5 @@
 
 ### Live Demo
 
+https://shantpr05.github.io/quiz-game/
+
