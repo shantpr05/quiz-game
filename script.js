@@ -25,18 +25,36 @@ async function fetchQuestions() {
   }
 }
 
+function updateQuestionNumber() {
+  const questionNumberEl = document.getElementById("question-number");
+  if (currentQuestionIndex >= questions.length) {
+    questionNumberEl.style.display = "none"; // Hide the question number
+  } else {
+    questionNumberEl.style.display = "block"; // Show the question number
+    questionNumberEl.textContent = `Question ${currentQuestionIndex + 1}`;
+  }  
+}
 function loadQuestion() {
-  resetState();
+  resetState(); // Clear previous question's state
   const currentQuestion = questions[currentQuestionIndex];
-  questionEl.innerHTML = currentQuestion.question;
+  
+  // Update the question text
+  questionEl.textContent = currentQuestion.question;
+
+  // Update the question number
+  updateQuestionNumber();
+
+  // Generate answer options
   currentQuestion.options.forEach((option) => {
     const li = document.createElement("li");
     li.textContent = option;
-    li.addEventListener("click", () => selectAnswer(li, currentQuestion.answer));
+    li.addEventListener("click", handleOptionClick);
     answersEl.appendChild(li);
   });
-  updateProgress();
+
+  updateProgress(); // Update progress bar (if applicable)
 }
+
 
 function resetState() {
   feedbackEl.textContent = "";
@@ -45,6 +63,13 @@ function resetState() {
 }
 
 function selectAnswer(selected, correct) {
+  // Prevent multiple selections by disabling all options immediately
+  Array.from(answersEl.children).forEach((li) => {
+    li.removeEventListener("click", handleOptionClick);
+    li.classList.add("disabled"); // Disable other options visually
+  });
+
+  // Highlight the selected option
   if (selected.textContent === correct) {
     selected.classList.add("correct");
     score++;
@@ -59,6 +84,12 @@ function selectAnswer(selected, correct) {
   });
 }
 
+// Add a reusable function for adding event listeners
+function handleOptionClick(event) {
+  const selectedOption = event.target;
+  const correctAnswer = questions[currentQuestionIndex].answer;
+  selectAnswer(selectedOption, correctAnswer);
+}
 function updateProgress() {
   const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
   progressBar.style.width = `${progressPercent}%`;
@@ -69,16 +100,35 @@ nextBtn.addEventListener("click", () => {
   if (currentQuestionIndex < questions.length) {
     loadQuestion();
   } else {
+    
     questionEl.textContent = `Quiz Over! Your Score: ${score}/${questions.length}`;
     answersEl.innerHTML = "";
     nextBtn.disabled = true;
   }
 });
 
+
+
 restartBtn.addEventListener("click", () => {
   currentQuestionIndex = 0;
   score = 0;
+
+  progressBar.style.width = "0%";
+  feedbackEl.textContent = "";
+  answersEl.innerHTML = "";
+  questionEl.textContent = "Loading...";
   fetchQuestions();
 });
 
 fetchQuestions();
+function showEndScreen() {
+  questionEl.textContent = "Quiz Over!"; // Show end message
+  answersEl.innerHTML = ""; // Clear answer options
+  feedbackEl.textContent = `Your final score is ${score}/${questions.length}.`;
+
+  // Hide the question number
+  updateQuestionNumber();
+
+  // Optionally hide the Next button if needed
+  nextBtn.style.display = "none";
+}

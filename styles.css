@@ -1,28 +1,34 @@
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    font-family: "Source Serif 4", serif;
+    font-size: 1.5rem;
+    line-height: 1.2;
     text-align: center;
-    background: #f4f4f4;
+    color: #fff;
     margin: 0;
     padding: 0;
+    background-image: url('background-free-vector.jpg');
+    background-size: cover; 
   }
-  
-  header {
-    background: #333;
-    color: white;
-    padding: 1em 0;
-  }
-  
+   
   main {
     margin: 20px;
     padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        
   }
   
   #quiz-container {
     margin-bottom: 20px;
+  }
+
+  #question {
+    font-size: 1.5em;
+    margin-bottom: 20px auto;
+    border: 2px solid white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px auto;       
+    width: 80%;         
+    box-shadow: 0 4px 15px rgba(233, 218, 235, 0.3);  
   }
   
   #answers {
@@ -31,31 +37,71 @@ body {
   }
   
   #answers li {
-    margin: 10px 0;
+    margin: 10px auto;
     padding: 10px;
-    background: #eee;
-    border-radius: 5px;
+    border: white;
+    border-radius: 50px;
+    width : 40%;
     cursor: pointer;
     transition: background 0.3s;
+    box-shadow: 0 4px 15px rgba(233, 218, 235, 0.3); 
+  }
+  #answers li.disabled {
+    pointer-events: none;
+    opacity: 0.6;         
+    cursor: not-allowed;  
   }
   
+  
   #answers li:hover {
-    background: #ddd;
+    background: #b145ab;
   }
   
   #answers li.correct {
     background: #4CAF50;
-    color: white;
+    
   }
   
   #answers li.incorrect {
-    background: #F44336;
-    color: white;
+    background: #d83911;
+    
   }
   
   #feedback {
     margin-top: 10px;
-    font-size: 1.2em;
+    font-size: 1.8em;
+  }
+
+  #controls {
+    display: flex;          
+    justify-content: center; 
+    gap: 20px;              
+    margin: 20px;       
+  }
+
+  button {
+    background-color: #a819bb;  
+    font-family: "Source Serif 4", serif;               
+    padding: 10px 20px;        
+    border: none;              
+    border-radius: 5px;        
+    cursor: pointer;           
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+  }
+  
+  button:hover {
+    background-color: #a819bb; 
+    transform: scale(1.05);    
+  }
+  
+  button:active {
+    background-color: #7f007f; 
+    transform: scale(0.95);    
+  }
+  
+  button:disabled {
+    background-color: #cccccc; 
+    cursor: not-allowed;       
   }
   
   #progress-bar {
@@ -68,7 +114,7 @@ body {
   #progress {
     height: 100%;
     width: 0;
-    background: #4CAF50;
+    background: #a819bb;
     transition: width 0.3s;
   }
   
